@@ -50,6 +50,11 @@ export default function Page() {
 						<ListItemText primary="モデル使用" /> 
 						</Link>
 					</ListItem>
+					<ListItem onClick={toggleDrawer}>
+						<Link href="/use-ai" passHref legacyBehavior>
+						<ListItemText primary="AI使用" /> 
+						</Link>
+					</ListItem>
 				</List>
 			</Drawer>
 
