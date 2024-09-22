@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Michroma } from 'next/font/google';
-import { Header } from './_layout/Header';
+import Header from './_layout/Header';
 
 const font = Michroma({ weight: '400', subsets: ['latin'] });
 
