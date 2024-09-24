@@ -1,92 +1,94 @@
-"use client";
+'use client';
 import React, { useState } from 'react';
 import { SelectChangeEvent } from '@mui/material';
-import { Box, FormControl, InputLabel, Select, MenuItem, TextField, Button } from '@mui/material';
-
+import {
+	Box,
+	FormControl,
+	InputLabel,
+	Select,
+	MenuItem,
+	TextField,
+	Button,
+} from '@mui/material';
 
 export default function UseAi() {
 	const [voiceModel, setVoiceModel] = useState('');
 	const [textModel, setTextModel] = useState('');
 
 	const handleVoiceModelChange = (event: SelectChangeEvent<string>) => {
-	setVoiceModel(event.target.value);
+		setVoiceModel(event.target.value);
 	};
 
 	const handleTextModelChange = (event: SelectChangeEvent<string>) => {
-	setTextModel(event.target.value);
+		setTextModel(event.target.value);
 	};
 
 	return (
-	<Box
-		sx={{
-		display: 'flex',
-		flexDirection: 'column',
-		height: '82vh',
-		padding: '2rem',
-		justifyContent: 'flex-end', // 下寄せ
-		alignItems: 'center', 
-		}}
-	>
-		{/* モデル選択エリア */}
-		<Box 
-		sx={{ 
-			maxWidth: '1200px',
-			width: '100%',
-			display: 'flex', 
-			gap: '1rem', // 要素間の隙間
-			marginBottom: '1rem', // チャット入力エリアとの間隔
-		}}
+		<Box
+			sx={{
+				display: 'flex',
+				flexDirection: 'column',
+				height: '82vh',
+				padding: '2rem',
+				justifyContent: 'flex-end', // 下寄せ
+				alignItems: 'center',
+			}}
 		>
-		{/* 音声モデル選択 */}
-		<FormControl fullWidth>
-			<InputLabel id="voice-model-label">音声モデル</InputLabel>
-			<Select
-			labelId="voice-model-label"
-			id="voice-model"
-			value={voiceModel}
-			label="音声モデル"
-			onChange={handleVoiceModelChange} 
+			{/* モデル選択エリア */}
+			<Box
+				sx={{
+					maxWidth: '1200px',
+					width: '100%',
+					display: 'flex',
+					gap: '1rem', // 要素間の隙間
+					marginBottom: '1rem', // チャット入力エリアとの間隔
+				}}
 			>
-			<MenuItem value="modelA">モデルA</MenuItem>
-			<MenuItem value="modelB">モデルB</MenuItem>
-			{/* 必要なだけモデルを追加 */}
-			</Select>
-		</FormControl>
+				{/* 音声モデル選択 */}
+				<FormControl fullWidth>
+					<InputLabel id="voice-model-label">音声モデル</InputLabel>
+					<Select
+						labelId="voice-model-label"
+						id="voice-model"
+						value={voiceModel}
+						label="音声モデル"
+						onChange={handleVoiceModelChange}
+					>
+						<MenuItem value="modelA">モデルA</MenuItem>
+						<MenuItem value="modelB">モデルB</MenuItem>
+						{/* 必要なだけモデルを追加 */}
+					</Select>
+				</FormControl>
 
-		{/* テキストモデル選択 */}
-		<FormControl fullWidth>
-			<InputLabel id="text-model-label">テキストモデル</InputLabel>
-			<Select
-			labelId="text-model-label"
-			id="text-model"
-			value={textModel}
-			label="テキストモデル"
-			onChange={handleTextModelChange}  
+				{/* テキストモデル選択 */}
+				<FormControl fullWidth>
+					<InputLabel id="text-model-label">テキストモデル</InputLabel>
+					<Select
+						labelId="text-model-label"
+						id="text-model"
+						value={textModel}
+						label="テキストモデル"
+						onChange={handleTextModelChange}
+					>
+						<MenuItem value="modelC">モデルC</MenuItem>
+						<MenuItem value="modelD">モデルD</MenuItem>
+						{/* 必要なだけモデルを追加 */}
+					</Select>
+				</FormControl>
+			</Box>
+
+			{/* チャット入力エリア */}
+			<Box
+				sx={{
+					display: 'flex',
+					gap: '1rem',
+					maxWidth: '1200px',
+					width: '100%',
+				}}
 			>
-			<MenuItem value="modelC">モデルC</MenuItem>
-			<MenuItem value="modelD">モデルD</MenuItem>
-			{/* 必要なだけモデルを追加 */}
-			</Select>
-		</FormControl>
+				<TextField fullWidth label="メッセージを入力" multiline rows={1} />
+				<Button variant="contained">送信</Button>
+			</Box>
 		</Box>
-
-		{/* チャット入力エリア */}
-		<Box 
-		sx={{
-			display: 'flex', 
-			gap: '1rem',
-			maxWidth: '1200px',
-			width: '100%'
-		}}
-		>
-		<TextField 
-			fullWidth 
-			label="メッセージを入力" 
-			multiline 
-			rows={1} 
-		/>
-		<Button variant="contained">送信</Button>
-		</Box>
-	</Box>
 	);
 }

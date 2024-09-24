@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Michroma } from 'next/font/google';
 import Header from './_layout/Header';
+import './globals.css';
 
 const font = Michroma({ weight: '400', subsets: ['latin'] });
 
@@ -16,12 +17,8 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="ja">
-			<body
-				className={font.className}
-				style={{ margin: 0, padding: 0, boxSizing: 'border-box' }}
-			>
+			<body className={font.className}>
 				<Header />
-
 				{children}
 			</body>
 		</html>
