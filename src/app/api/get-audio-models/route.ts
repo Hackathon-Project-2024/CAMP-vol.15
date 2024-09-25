@@ -87,7 +87,7 @@ export async function GET() {
 			const data = (await response.json()) as VoicesResponse;
 
 			// デバッグ用にレスポンスをログに出力して確認
-			console.log('APIレスポンス:', data);
+			// console.log('APIレスポンス:', data);
 
 			// data.voicesが存在しない場合のチェック
 			if (!Array.isArray(data.voices)) {
