@@ -28,10 +28,11 @@ export default function UseAi() {
 			sx={{
 				display: 'flex',
 				flexDirection: 'column',
-				height: '82vh',
+				height: '94vh',
 				padding: '2rem',
-				justifyContent: 'flex-end', // 下寄せ
+				justifyContent: 'flex-end', 
 				alignItems: 'center',
+				// backgroundColor: 'black',
 			}}
 		>
 			{/* モデル選択エリア */}
@@ -42,11 +43,13 @@ export default function UseAi() {
 					display: 'flex',
 					gap: '1rem', // 要素間の隙間
 					marginBottom: '1rem', // チャット入力エリアとの間隔
+					borderColor: '#fff',
+					coler: '#fff',
 				}}
 			>
 				{/* 音声モデル選択 */}
 				<FormControl fullWidth>
-					<InputLabel id="voice-model-label">音声モデル</InputLabel>
+					<InputLabel id="voice-model-label" >音声モデル</InputLabel>
 					<Select
 						labelId="voice-model-label"
 						id="voice-model"
@@ -87,7 +90,7 @@ export default function UseAi() {
 				}}
 			>
 				<TextField fullWidth label="メッセージを入力" multiline rows={1} />
-				<Button variant="contained">送信</Button>
+				<Button variant="contained" sx={{backgroundColor: '#674598'}}>送信</Button>
 			</Box>
 		</Box>
 	);

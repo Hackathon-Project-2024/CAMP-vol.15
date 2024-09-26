@@ -1,11 +1,13 @@
 'use client';
 import { Box } from '@mui/material';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
 export default function Page() {
 	const descriptionRef = useRef<HTMLDivElement>(null);
 	const overlayRef = useRef<HTMLDivElement>(null);
+	const [titleOpacity, setTitleOpacity] = useState(0);
+	const [haikeiOpacity, setHikeiOpacity] = useState(0);
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -27,107 +29,121 @@ export default function Page() {
 			}
 		};
 
+
 		window.addEventListener('scroll', handleScroll);
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
 
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setTitleOpacity(1);
+		}, 400); // 0.3秒後に不透明度を1にする
+	
+		return () => clearTimeout(timer);
+	}, []); 
+
 	return (
-		<Box
-			sx={{
-				backgroundImage: "url('/haikei2.png')",
-				backgroundSize: 'auto 100%',
-				backgroundAttachment: 'fixed',
-				backgroundPosition: 'center',
-				minHeight: '100vh',
-				position: 'relative', // 擬似要素を配置するため
-			}}
-		>
-			<div
-				style={{
-					width: '100%',
-					height: '100%',
-					backgroundColor: '#000',
-					transition: 'opacity 0.3s ease',
-					opacity: 0,
-					overflow: 'hidden',
-					position: 'absolute',
-				}}
-				ref={overlayRef}
-			></div>
+		<main style={{backgroundColor: 'black'}}>
 			<Box
 				sx={{
-					position: 'relative',
+					backgroundImage: "url('/haikei2.png')",
+					backgroundSize: 'auto 100%',
+					backgroundAttachment: 'fixed',
+					backgroundPosition: 'center',
 					minHeight: '100vh',
-					display: 'flex',
-					flexDirection: 'column',
-					alignItems: 'center',
-					justifyContent: 'center',
-					padding: '20px',
-					maxWidth: '1100px',
-					margin: '0 auto',
+					position: 'relative', // 擬似要素を配置するため
 				}}
 			>
 				<div
 					style={{
+						width: '100%',
+						height: '100%',
+						backgroundColor: '#000',
+						transition: 'opacity 0.3s ease',
+						opacity: 0,
+						overflow: 'hidden',
+						position: 'absolute',
+					}}
+					ref={overlayRef}
+				></div>
+				<Box
+					sx={{
+						position: 'relative',
+						minHeight: '100vh',
 						display: 'flex',
-						justifyContent: 'center',
+						flexDirection: 'column',
 						alignItems: 'center',
-						minHeight: '82vh',
+						justifyContent: 'center',
+						padding: '20px',
+						maxWidth: '1100px',
+						margin: '0 auto',
 					}}
 				>
 					<div
 						style={{
-							position: 'relative',
-							width: '600px',
-							height: '200px',
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+							minHeight: '82vh',
 						}}
 					>
-						<Image
-							src="/title.png"
-							alt="タイトル"
-							fill
-							sizes="(max-width: 600px)"
-						/>
+						<div
+							style={{
+								position: 'relative',
+								width: '600px',
+								height: '200px',
+								opacity: titleOpacity, // タイトルの不透明度を制御
+								transition: 'opacity 1s ease', // 不透明度の変化にアニメーションを追加
+							}}
+						>
+							<Image
+								src="/title.png"
+								alt="タイトル"
+								fill
+								sizes="(max-width: 600px)"
+							/>
+						</div>
 					</div>
-				</div>
-				<div
-					ref={descriptionRef}
-					style={{
-						margin: '350px 0 300px 0',
-						padding: '5px',
-					}}
-				>
-					<p style={{ color: '#fff', padding: '5px' }}>
-						このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
-						このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
-						このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
-						このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
-						このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
-						このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
-						このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
-						このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
-						このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
-						このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
-						このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
-						このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
-						このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
-						このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
-						このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
-						このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
-						このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
-						このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
-						このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
-						このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
-						このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
-						このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
-						このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
-						このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
-						このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
-						このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
-						このサイトの説明
-					</p>
-				</div>
+					<div
+						ref={descriptionRef}
+						style={{
+							margin: '350px 0 300px 0',
+							padding: '5px',
+						}}
+					>
+						<p style={{ color: '#fff', padding: '5px' }}>
+							このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
+							このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
+							このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
+							このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
+							このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
+							このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
+							このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
+							このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
+							このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
+							このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
+							このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
+							このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
+							このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
+							このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
+							このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
+							このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
+							このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
+							このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
+							このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
+							このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
+							このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
+							このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
+							このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
+							このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
+							このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
+							このサイトの説明 このサイトの説明 このサイトの説明 このサイトの説明
+							このサイトの説明
+						</p>
+					</div>
+				</Box>
 			</Box>
-		</Box>
+		</main>
+		
 	);
 }

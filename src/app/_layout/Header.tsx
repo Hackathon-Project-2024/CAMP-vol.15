@@ -36,6 +36,7 @@ export default function Header() {
 				position="fixed"
 				sx={{
 					bgcolor: 'black',
+					// opacity: 0.8,
 					zIndex: (theme) => theme.zIndex.drawer + 1,
 				}}
 			>
@@ -81,7 +82,13 @@ export default function Header() {
 						zIndex: (theme) => theme.zIndex.appBar - 1,
 					}}
 				>
-					<List sx={{ margin: '70px 0 0 0', width: '400px' }}>
+					<List
+						sx={{ 
+							margin: '70px 0 0 0', 
+							width: '400px',
+							backgroundColor: "none",
+						}}
+					>
 						<ListItem onClick={toggleDrawer}>
 							<Link href="/create-voice">
 								<ListItemText primary="音声モデル生成" />
