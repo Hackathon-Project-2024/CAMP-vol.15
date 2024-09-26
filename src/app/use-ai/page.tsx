@@ -1,99 +1,4 @@
 // 'use client';
-// import React, { useState } from 'react';
-// import { SelectChangeEvent } from '@mui/material';
-// import {
-// 	Box,
-// 	FormControl,
-// 	InputLabel,
-// 	Select,
-// 	MenuItem,
-// 	TextField,
-// 	Button,
-// } from '@mui/material';
-
-// export default function UseAi() {
-// 	const [voiceModel, setVoiceModel] = useState('');
-// 	const [textModel, setTextModel] = useState('');
-
-// 	const handleVoiceModelChange = (event: SelectChangeEvent<string>) => {
-// 		setVoiceModel(event.target.value);
-// 	};
-
-// 	const handleTextModelChange = (event: SelectChangeEvent<string>) => {
-// 		setTextModel(event.target.value);
-// 	};
-
-// 	return (
-// 		<Box
-// 			sx={{
-// 				display: 'flex',
-// 				flexDirection: 'column',
-// 				height: '82vh',
-// 				padding: '2rem',
-// 				justifyContent: 'flex-end', // 下寄せ
-// 				alignItems: 'center',
-// 			}}
-// 		>
-// 			{/* モデル選択エリア */}
-// 			<Box
-// 				sx={{
-// 					maxWidth: '1200px',
-// 					width: '100%',
-// 					display: 'flex',
-// 					gap: '1rem', // 要素間の隙間
-// 					marginBottom: '1rem', // チャット入力エリアとの間隔
-// 				}}
-// 			>
-// 				{/* 音声モデル選択 */}
-// 				<FormControl fullWidth>
-// 					<InputLabel id="voice-model-label">音声モデル</InputLabel>
-// 					<Select
-// 						labelId="voice-model-label"
-// 						id="voice-model"
-// 						value={voiceModel}
-// 						label="音声モデル"
-// 						onChange={handleVoiceModelChange}
-// 					>
-// 						<MenuItem value="modelA">モデルA</MenuItem>
-// 						<MenuItem value="modelB">モデルB</MenuItem>
-// 						{/* 必要なだけモデルを追加 */}
-// 					</Select>
-// 				</FormControl>
-
-// 				{/* テキストモデル選択 */}
-// 				<FormControl fullWidth>
-// 					<InputLabel id="text-model-label">テキストモデル</InputLabel>
-// 					<Select
-// 						labelId="text-model-label"
-// 						id="text-model"
-// 						value={textModel}
-// 						label="テキストモデル"
-// 						onChange={handleTextModelChange}
-// 					>
-// 						<MenuItem value="modelC">モデルC</MenuItem>
-// 						<MenuItem value="modelD">モデルD</MenuItem>
-// 						{/* 必要なだけモデルを追加 */}
-// 					</Select>
-// 				</FormControl>
-// 			</Box>
-
-// 			{/* チャット入力エリア */}
-// 			<Box
-// 				sx={{
-// 					display: 'flex',
-// 					gap: '1rem',
-// 					maxWidth: '1200px',
-// 					width: '100%',
-// 				}}
-// 			>
-// 				<TextField fullWidth label="メッセージを入力" multiline rows={1} />
-// 				<Button variant="contained">送信</Button>
-// 			</Box>
-// 		</Box>
-// 	);
-// }
-
-// 'use client';
 // import React, { useState, useEffect } from 'react';
 // import { SelectChangeEvent } from '@mui/material';
 // import {
@@ -106,7 +11,7 @@
 // 	Button,
 // } from '@mui/material';
 
-// // AudioModelとTextModelの型
+// // AudioModel and AssistantModel types
 // interface AudioModel {
 // 	id: string;
 // 	name: string;
@@ -118,22 +23,27 @@
 // }
 
 // export default function UseAi() {
-// 	const [voiceModel, setVoiceModel] = useState('');
-// 	const [textModel, setTextModel] = useState('');
-// 	const [audioModels, setAudioModels] = useState<AudioModel[]>([]);
-// 	const [assistantModels, setAssistantModels] = useState<AssistantModel[]>([]);
-// 	const [loadingAudio, setLoadingAudio] = useState(true);
-// 	const [loadingText, setLoadingText] = useState(true);
+// 	const [voiceModel, setVoiceModel] = useState<string>(''); // 音声モデルの選択状態
+// 	const [textModel, setTextModel] = useState<string>(''); // テキストモデルの選択状態
+// 	const [audioModels, setAudioModels] = useState<AudioModel[]>([]); // 音声モデルのリスト
+// 	const [assistantModels, setAssistantModels] = useState<AssistantModel[]>([]); // テキストモデルのリスト
+// 	const [loadingAudio, setLoadingAudio] = useState<boolean>(true); // 音声モデル読み込み状態
+// 	const [loadingText, setLoadingText] = useState<boolean>(true); // テキストモデル読み込み状態
 
-// 	// 音声モデルのAPIからモデルリストを取得
+// 	// 音声モデルを取得する関数
 // 	useEffect(() => {
 // 		const fetchAudioModels = async () => {
 // 			try {
 // 				const response = await fetch('/api/get-audio-models');
 // 				const data = await response.json();
-// 				setAudioModels(data.models);
+
+// 				if (data && data.models) {
+// 					setAudioModels(data.models);
+// 				} else {
+// 					console.error('Failed to load audio models: no data.');
+// 				}
 // 			} catch (error) {
-// 				console.error('音声モデル一覧の取得に失敗しました:', error);
+// 				console.error('Failed to load audio models:', error);
 // 			} finally {
 // 				setLoadingAudio(false);
 // 			}
@@ -141,15 +51,20 @@
 // 		fetchAudioModels();
 // 	}, []);
 
-// 	// アシスタントモデルのAPIからモデルリストを取得
+// 	// テキストモデルを取得する関数
 // 	useEffect(() => {
 // 		const fetchAssistantModels = async () => {
 // 			try {
 // 				const response = await fetch('/api/get-assistant-models');
 // 				const data = await response.json();
-// 				setAssistantModels(data.models);
+
+// 				if (data && data.models) {
+// 					setAssistantModels(data.models);
+// 				} else {
+// 					console.error('Failed to load assistant models: no data.');
+// 				}
 // 			} catch (error) {
-// 				console.error('アシスタントモデル一覧の取得に失敗しました:', error);
+// 				console.error('Failed to load assistant models:', error);
 // 			} finally {
 // 				setLoadingText(false);
 // 			}
@@ -157,12 +72,14 @@
 // 		fetchAssistantModels();
 // 	}, []);
 
+// 	// 音声モデルが変更された際に呼ばれるハンドラー
 // 	const handleVoiceModelChange = (event: SelectChangeEvent<string>) => {
-// 		setVoiceModel(event.target.value);
+// 		setVoiceModel(event.target.value); // 単一の文字列として選択された値を保存
 // 	};
 
+// 	// テキストモデルが変更された際に呼ばれるハンドラー
 // 	const handleTextModelChange = (event: SelectChangeEvent<string>) => {
-// 		setTextModel(event.target.value);
+// 		setTextModel(event.target.value); // 単一の文字列として選択された値を保存
 // 	};
 
 // 	return (
@@ -172,7 +89,7 @@
 // 				flexDirection: 'column',
 // 				height: '82vh',
 // 				padding: '2rem',
-// 				justifyContent: 'flex-end', // 下寄せ
+// 				justifyContent: 'flex-end',
 // 				alignItems: 'center',
 // 			}}
 // 		>
@@ -182,56 +99,54 @@
 // 					maxWidth: '1200px',
 // 					width: '100%',
 // 					display: 'flex',
-// 					gap: '1rem', // 要素間の隙間
-// 					marginBottom: '1rem', // チャット入力エリアとの間隔
+// 					gap: '1rem',
+// 					marginBottom: '1rem',
 // 				}}
 // 			>
-// 				{/* 音声モデル選択 */}
+// 				{/* 音声モデルの選択 */}
 // 				<FormControl fullWidth>
 // 					<InputLabel id="voice-model-label">音声モデル</InputLabel>
 // 					<Select
 // 						labelId="voice-model-label"
 // 						id="voice-model"
-// 						value={voiceModel}
+// 						value={voiceModel} // 選択された音声モデル
 // 						label="音声モデル"
-// 						onChange={handleVoiceModelChange}
+// 						onChange={handleVoiceModelChange} // 音声モデルの変更を処理
 // 					>
-// 						{/* ローディング中 */}
 // 						{loadingAudio ? (
-// 							<MenuItem value="">
-// 								読み込み中...
-// 							</MenuItem>
-// 						) : (
+// 							<MenuItem value="">読み込み中...</MenuItem>
+// 						) : audioModels.length > 0 ? (
 // 							audioModels.map((model) => (
-// 								<MenuItem key={model.id} value={model.id}>
+// 								<MenuItem key={model.id} value={model.name}>
 // 									{model.name}
 // 								</MenuItem>
 // 							))
+// 						) : (
+// 							<MenuItem value="">音声モデルが見つかりません</MenuItem>
 // 						)}
 // 					</Select>
 // 				</FormControl>
 
-// 				{/* テキストモデル選択 */}
+// 				{/* テキストモデルの選択 */}
 // 				<FormControl fullWidth>
 // 					<InputLabel id="text-model-label">テキストモデル</InputLabel>
 // 					<Select
 // 						labelId="text-model-label"
 // 						id="text-model"
-// 						value={textModel}
+// 						value={textModel} // 選択されたテキストモデル
 // 						label="テキストモデル"
-// 						onChange={handleTextModelChange}
+// 						onChange={handleTextModelChange} // テキストモデルの変更を処理
 // 					>
-// 						{/* ローディング中 */}
 // 						{loadingText ? (
-// 							<MenuItem value="">
-// 								読み込み中...
-// 							</MenuItem>
-// 						) : (
+// 							<MenuItem value="">読み込み中...</MenuItem>
+// 						) : assistantModels.length > 0 ? (
 // 							assistantModels.map((model) => (
-// 								<MenuItem key={model.id} value={model.id}>
+// 								<MenuItem key={model.id} value={model.name}>
 // 									{model.name}
 // 								</MenuItem>
 // 							))
+// 						) : (
+// 							<MenuItem value="">テキストモデルが見つかりません</MenuItem>
 // 						)}
 // 					</Select>
 // 				</FormControl>
@@ -266,7 +181,7 @@
 //   Button,
 // } from '@mui/material';
 
-// // AudioModel and AssistantModel types
+// // 型定義
 // interface AudioModel {
 //   id: string;
 //   name: string;
@@ -275,368 +190,25 @@
 // interface AssistantModel {
 //   id: string;
 //   name: string;
+//   instructions?: string;
+//   model: string; // OpenAIのモデル名を含む
 // }
 
-// export default function UseAi() {
-//   const [voiceModel, setVoiceModel] = useState('');
-//   const [textModel, setTextModel] = useState('');
-//   const [audioModels, setAudioModels] = useState<AudioModel[]>([]);
-//   const [assistantModels, setAssistantModels] = useState<AssistantModel[]>([]);
-//   const [loadingAudio, setLoadingAudio] = useState(true);
-//   const [loadingText, setLoadingText] = useState(true);
-
-//   // Fetch audio models
-//   useEffect(() => {
-//     const fetchAudioModels = async () => {
-//       try {
-//         const response = await fetch('/api/get-audio-models');
-//         const data = await response.json();
-
-//         if (data && data.models) {
-//           setAudioModels(data.models);
-//         } else {
-//           console.error('Failed to load audio models: no data.');
-//         }
-//       } catch (error) {
-//         console.error('Failed to load audio models:', error);
-//       } finally {
-//         setLoadingAudio(false);
-//       }
-//     };
-//     fetchAudioModels();
-//   }, []);
-
-//   // Fetch assistant models
-//   useEffect(() => {
-// 	const fetchAssistantModels = async () => {
-// 	  try {
-// 		const response = await fetch('/api/get-assistant-models');
-// 		const data = await response.json();
-
-// 		// データをログに出力して構造を確認
-// 		console.log('Assistant models:', data);
-
-// 		if (data && data.models) {
-// 		  setAssistantModels(data.models);
-// 		} else {
-// 		  console.error('Failed to load assistant models: no data.');
-// 		}
-// 	  } catch (error) {
-// 		console.error('Failed to load assistant models:', error);
-// 	  } finally {
-// 		setLoadingText(false);
-// 	  }
-// 	};
-// 	fetchAssistantModels();
-//   }, []);
-
-//   // Handle model selections
-//   const handleVoiceModelChange = (event: SelectChangeEvent<string>) => {
-//     setVoiceModel(event.target.value);
-//   };
-
-//   const handleTextModelChange = (event: SelectChangeEvent<string>) => {
-//     setTextModel(event.target.value);
-//   };
-
-//   return (
-//     <Box
-//       sx={{
-//         display: 'flex',
-//         flexDirection: 'column',
-//         height: '82vh',
-//         padding: '2rem',
-//         justifyContent: 'flex-end',
-//         alignItems: 'center',
-//       }}
-//     >
-//       {/* Model selection area */}
-//       <Box
-//         sx={{
-//           maxWidth: '1200px',
-//           width: '100%',
-//           display: 'flex',
-//           gap: '1rem',
-//           marginBottom: '1rem',
-//         }}
-//       >
-//         {/* Voice Model Selection */}
-//         <FormControl fullWidth>
-//           <InputLabel id="voice-model-label">音声モデル</InputLabel>
-//           <Select
-//             labelId="voice-model-label"
-//             id="voice-model"
-//             value={voiceModel}
-//             label="音声モデル"
-//             onChange={handleVoiceModelChange}
-//           >
-//             {/* Loading state */}
-//             {loadingAudio ? (
-//               <MenuItem value="">読み込み中...</MenuItem>
-//             ) : (
-//               audioModels.length > 0 ? (
-//                 audioModels.map((model) => (
-//                   <MenuItem key={model.id} value={model.id}>
-//                     {model.name}
-//                   </MenuItem>
-//                 ))
-//               ) : (
-//                 <MenuItem value="">音声モデルが見つかりません</MenuItem>
-//               )
-//             )}
-//           </Select>
-//         </FormControl>
-
-//         {/* Text Model Selection */}
-//         <FormControl fullWidth>
-//           <InputLabel id="text-model-label">テキストモデル</InputLabel>
-//           <Select
-//             labelId="text-model-label"
-//             id="text-model"
-//             value={textModel}
-//             label="テキストモデル"
-//             onChange={handleTextModelChange}
-//           >
-//             {/* Loading state */}
-//             {loadingText ? (
-//               <MenuItem value="">読み込み中...</MenuItem>
-//             ) : (
-//               assistantModels.length > 0 ? (
-//                 assistantModels.map((model) => (
-//                   <MenuItem key={model.id} value={model.id}>
-//                     {model.name}
-//                   </MenuItem>
-//                 ))
-//               ) : (
-//                 <MenuItem value="">テキストモデルが見つかりません</MenuItem>
-//               )
-//             )}
-//           </Select>
-//         </FormControl>
-//       </Box>
-
-//       {/* Chat Input Area */}
-//       <Box
-//         sx={{
-//           display: 'flex',
-//           gap: '1rem',
-//           maxWidth: '1200px',
-//           width: '100%',
-//         }}
-//       >
-//         <TextField fullWidth label="メッセージを入力" multiline rows={1} />
-//         <Button variant="contained">送信</Button>
-//       </Box>
-//     </Box>
-//   );
-// }
-
-// 'use client';
-// import React, { useState, useEffect } from 'react';
-// import { SelectChangeEvent } from '@mui/material';
-// import {
-//   Box,
-//   FormControl,
-//   InputLabel,
-//   Select,
-//   MenuItem,
-//   TextField,
-//   Button,
-// } from '@mui/material';
-
-// // AudioModel and AssistantModel types
-// interface AudioModel {
-//   id: string;
-//   name: string;
-// }
-
-// interface AssistantModel {
-//   id: string;
-//   name: string;
-// }
-
-// export default function UseAi() {
-//   const [voiceModel, setVoiceModel] = useState('');
-//   const [textModel, setTextModel] = useState('');
-//   const [audioModels, setAudioModels] = useState<AudioModel[]>([]);
-//   const [assistantModels, setAssistantModels] = useState<AssistantModel[]>([]);
-//   const [loadingAudio, setLoadingAudio] = useState(true);
-//   const [loadingText, setLoadingText] = useState(true);
-
-//   // Fetch audio models
-//   useEffect(() => {
-//     const fetchAudioModels = async () => {
-//       try {
-//         const response = await fetch('/api/get-audio-models');
-//         const data = await response.json();
-
-//         if (data && data.models) {
-//           setAudioModels(data.models);
-//         } else {
-//           console.error('Failed to load audio models: no data.');
-//         }
-//       } catch (error) {
-//         console.error('Failed to load audio models:', error);
-//       } finally {
-//         setLoadingAudio(false);
-//       }
-//     };
-//     fetchAudioModels();
-//   }, []);
-
-//   // Fetch assistant models
-//   useEffect(() => {
-//     const fetchAssistantModels = async () => {
-//       try {
-//         const response = await fetch('/api/get-assistant-models');
-//         const data = await response.json();
-
-//         if (data && data.models) {
-//           setAssistantModels(data.models);
-//         } else {
-//           console.error('Failed to load assistant models: no data.');
-//         }
-//       } catch (error) {
-//         console.error('Failed to load assistant models:', error);
-//       } finally {
-//         setLoadingText(false);
-//       }
-//     };
-//     fetchAssistantModels();
-//   }, []);
-
-//   // Handle model selections
-//   const handleVoiceModelChange = (event: SelectChangeEvent<string>) => {
-//     setVoiceModel(event.target.value);
-//   };
-
-//   const handleTextModelChange = (event: SelectChangeEvent<string>) => {
-//     setTextModel(event.target.value);
-//   };
-
-//   return (
-//     <Box
-//       sx={{
-//         display: 'flex',
-//         flexDirection: 'column',
-//         height: '82vh',
-//         padding: '2rem',
-//         justifyContent: 'flex-end',
-//         alignItems: 'center',
-//       }}
-//     >
-//       {/* Model selection area */}
-//       <Box
-//         sx={{
-//           maxWidth: '1200px',
-//           width: '100%',
-//           display: 'flex',
-//           gap: '1rem',
-//           marginBottom: '1rem',
-//         }}
-//       >
-//         {/* Voice Model Selection */}
-//         <FormControl fullWidth>
-//           <InputLabel id="voice-model-label">音声モデル</InputLabel>
-//           <Select
-//             labelId="voice-model-label"
-//             id="voice-model"
-//             value={voiceModel}
-//             label="音声モデル"
-//             onChange={handleVoiceModelChange}
-//           >
-//             {/* Loading state */}
-//             {loadingAudio ? (
-//               <MenuItem value="">読み込み中...</MenuItem>
-//             ) : (
-//               audioModels.length > 0 ? (
-//                 audioModels.map((model) => (
-//                   <MenuItem key={model.id} value={model.id}>
-//                     {model.name}
-//                   </MenuItem>
-//                 ))
-//               ) : (
-//                 <MenuItem value="">音声モデルが見つかりません</MenuItem>
-//               )
-//             )}
-//           </Select>
-//         </FormControl>
-
-//         {/* Text Model Selection */}
-//         <FormControl fullWidth>
-//           <InputLabel id="text-model-label">テキストモデル</InputLabel>
-//           <Select
-//             labelId="text-model-label"
-//             id="text-model"
-//             value={textModel}
-//             label="テキストモデル"
-//             onChange={handleTextModelChange}
-//           >
-//             {/* Loading state */}
-//             {loadingText ? (
-//               <MenuItem value="">読み込み中...</MenuItem>
-//             ) : (
-//               assistantModels.length > 0 ? (
-//                 assistantModels.map((model) => (
-//                   <MenuItem key={model.id} value={model.id}>
-//                     {model.name}
-//                   </MenuItem>
-//                 ))
-//               ) : (
-//                 <MenuItem value="">テキストモデルが見つかりません</MenuItem>
-//               )
-//             )}
-//           </Select>
-//         </FormControl>
-//       </Box>
-
-//       {/* Chat Input Area */}
-//       <Box
-//         sx={{
-//           display: 'flex',
-//           gap: '1rem',
-//           maxWidth: '1200px',
-//           width: '100%',
-//         }}
-//       >
-//         <TextField fullWidth label="メッセージを入力" multiline rows={1} />
-//         <Button variant="contained">送信</Button>
-//       </Box>
-//     </Box>
-//   );
-// }
-
-// 'use client';
-// import React, { useState, useEffect } from 'react';
-// import { SelectChangeEvent } from '@mui/material';
-// import {
-//   Box,
-//   FormControl,
-//   InputLabel,
-//   Select,
-//   MenuItem,
-//   TextField,
-//   Button,
-// } from '@mui/material';
-
-// // AudioModel and AssistantModel types
-// interface AudioModel {
-//   id: string;
-//   name: string;
-// }
-
-// interface AssistantModel {
-//   id: string;
-//   name: string;
+// interface Message {
+//   sender: 'user' | 'assistant';
+//   content: string;
 // }
 
 // export default function UseAi() {
 //   const [voiceModel, setVoiceModel] = useState<string>(''); // 音声モデルの選択状態
-//   const [textModel, setTextModel] = useState<string>(''); // テキストモデルの選択状態
+//   const [textModel, setTextModel] = useState<string>(''); // テキストモデルの選択状態（モデルのID）
 //   const [audioModels, setAudioModels] = useState<AudioModel[]>([]); // 音声モデルのリスト
 //   const [assistantModels, setAssistantModels] = useState<AssistantModel[]>([]); // テキストモデルのリスト
 //   const [loadingAudio, setLoadingAudio] = useState<boolean>(true); // 音声モデル読み込み状態
 //   const [loadingText, setLoadingText] = useState<boolean>(true); // テキストモデル読み込み状態
+//   const [userMessage, setUserMessage] = useState<string>(''); // ユーザーのメッセージ
+//   const [messages, setMessages] = useState<Message[]>([]); // チャット履歴
+//   const [sending, setSending] = useState<boolean>(false); // メッセージ送信中かどうか
 
 //   // 音声モデルを取得する関数
 //   useEffect(() => {
@@ -644,6 +216,8 @@
 //       try {
 //         const response = await fetch('/api/get-audio-models');
 //         const data = await response.json();
+
+//         console.log('Fetched Audio Models:', data);
 
 //         if (data && data.models) {
 //           setAudioModels(data.models);
@@ -665,6 +239,8 @@
 //       try {
 //         const response = await fetch('/api/get-assistant-models');
 //         const data = await response.json();
+
+//         console.log('Fetched Assistant Models:', data);
 
 //         if (data && data.models) {
 //           setAssistantModels(data.models);
@@ -688,6 +264,65 @@
 //   // テキストモデルが変更された際に呼ばれるハンドラー
 //   const handleTextModelChange = (event: SelectChangeEvent<string>) => {
 //     setTextModel(event.target.value);
+//   };
+
+//   // メッセージを送信する関数
+//   const handleSendMessage = async () => {
+//     if (!textModel || !userMessage.trim()) {
+//       alert('テキストモデルとメッセージを入力してください。');
+//       return;
+//     }
+
+//     // 選択されたモデルを取得
+//     const selectedModel = assistantModels.find((model) => model.id === textModel);
+//     if (!selectedModel) {
+//       alert('選択されたテキストモデルが見つかりません。');
+//       return;
+//     }
+
+//     const instructions = selectedModel.instructions || 'あなたは有能なアシスタントです。';
+//     const openAiModelName = selectedModel.model || 'gpt-3.5-turbo';
+
+//     // ユーザーのメッセージをチャット履歴に追加
+//     setMessages((prevMessages) => [
+//       ...prevMessages,
+//       { sender: 'user', content: userMessage },
+//     ]);
+
+//     setSending(true);
+
+//     try {
+//       const response = await fetch('/api/send-message', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({
+//           model: openAiModelName, // OpenAIのモデル名を送信
+//           message: userMessage,
+//           previousMessages: messages,
+//           instructions: instructions,
+//         }),
+//       });
+//       const data = await response.json();
+
+//       console.log('Response from text model:', data);
+
+//       if (data && data.response) {
+//         // アシスタントの返信をチャット履歴に追加
+//         setMessages((prevMessages) => [
+//           ...prevMessages,
+//           { sender: 'assistant', content: data.response },
+//         ]);
+//       } else {
+//         console.error('No response from assistant.');
+//       }
+//     } catch (error) {
+//       console.error('Failed to send message:', error);
+//     } finally {
+//       setSending(false);
+//       setUserMessage(''); // メッセージ入力欄をクリア
+//     }
 //   };
 
 //   return (
@@ -717,22 +352,20 @@
 //           <Select
 //             labelId="voice-model-label"
 //             id="voice-model"
-//             value={voiceModel} // 選択された音声モデル
+//             value={voiceModel}
 //             label="音声モデル"
-//             onChange={handleVoiceModelChange} // 音声モデルの変更を処理
+//             onChange={handleVoiceModelChange}
 //           >
 //             {loadingAudio ? (
 //               <MenuItem value="">読み込み中...</MenuItem>
+//             ) : audioModels.length > 0 ? (
+//               audioModels.map((model) => (
+//                 <MenuItem key={model.id} value={model.id}>
+//                   {model.name}
+//                 </MenuItem>
+//               ))
 //             ) : (
-//               audioModels.length > 0 ? (
-//                 audioModels.map((model) => (
-//                   <MenuItem key={model.id} value={model.id}>
-//                     {model.name}
-//                   </MenuItem>
-//                 ))
-//               ) : (
-//                 <MenuItem value="">音声モデルが見つかりません</MenuItem>
-//               )
+//               <MenuItem value="">音声モデルが見つかりません</MenuItem>
 //             )}
 //           </Select>
 //         </FormControl>
@@ -743,25 +376,50 @@
 //           <Select
 //             labelId="text-model-label"
 //             id="text-model"
-//             value={textModel} // 選択されたテキストモデル
+//             value={textModel}
 //             label="テキストモデル"
-//             onChange={handleTextModelChange} // テキストモデルの変更を処理
+//             onChange={handleTextModelChange}
 //           >
 //             {loadingText ? (
 //               <MenuItem value="">読み込み中...</MenuItem>
+//             ) : assistantModels.length > 0 ? (
+//               assistantModels.map((model) => (
+//                 <MenuItem key={model.id} value={model.id}>
+//                   {model.name}
+//                 </MenuItem>
+//               ))
 //             ) : (
-//               assistantModels.length > 0 ? (
-//                 assistantModels.map((model) => (
-//                   <MenuItem key={model.id} value={model.id}>
-//                     {model.name}
-//                   </MenuItem>
-//                 ))
-//               ) : (
-//                 <MenuItem value="">テキストモデルが見つかりません</MenuItem>
-//               )
+//               <MenuItem value="">テキストモデルが見つかりません</MenuItem>
 //             )}
 //           </Select>
 //         </FormControl>
+//       </Box>
+
+//       {/* チャット表示エリア */}
+//       <Box
+//         sx={{
+//           maxWidth: '1200px',
+//           width: '100%',
+//           flexGrow: 1,
+//           overflowY: 'auto',
+//           marginBottom: '1rem',
+//           padding: '1rem',
+//           border: '1px solid #ccc',
+//           borderRadius: '4px',
+//         }}
+//       >
+//         {messages.map((msg, index) => (
+//           <Box
+//             key={index}
+//             sx={{
+//               margin: '0.5rem 0',
+//               textAlign: msg.sender === 'user' ? 'right' : 'left',
+//             }}
+//           >
+//             <strong>{msg.sender === 'user' ? 'あなた' : 'アシスタント'}:</strong>{' '}
+//             {msg.content}
+//           </Box>
+//         ))}
 //       </Box>
 
 //       {/* チャット入力エリア */}
@@ -773,13 +431,316 @@
 //           width: '100%',
 //         }}
 //       >
-//         <TextField fullWidth label="メッセージを入力" multiline rows={1} />
-//         <Button variant="contained">送信</Button>
+//         <TextField
+//           fullWidth
+//           label="メッセージを入力"
+//           multiline
+//           rows={1}
+//           value={userMessage}
+//           onChange={(e) => setUserMessage(e.target.value)}
+//           disabled={sending}
+//         />
+//         <Button
+//           variant="contained"
+//           onClick={handleSendMessage}
+//           disabled={sending}
+//         >
+//           {sending ? '送信中...' : '送信'}
+//         </Button>
 //       </Box>
 //     </Box>
 //   );
 // }
 
+// ==========================================================================================================================
+// テキストのみ送信モデル
+// ==========================================================================================================================
+
+// 'use client';
+// import React, { useState, useEffect } from 'react';
+// import { SelectChangeEvent } from '@mui/material';
+// import {
+//   Box,
+//   FormControl,
+//   InputLabel,
+//   Select,
+//   MenuItem,
+//   TextField,
+//   Button,
+// } from '@mui/material';
+
+// // 型定義
+// interface AudioModel {
+//   id: string; // IDが数値型であればstring型に変更
+//   name: string;
+// }
+
+// interface AssistantModel {
+//   id: string;
+//   name: string;
+//   instructions?: string;
+//   model: string; // OpenAIのモデル名を含む
+// }
+
+// interface Message {
+//   sender: 'user' | 'assistant';
+//   content: string;
+// }
+
+// export default function UseAi() {
+//   const [voiceModel, setVoiceModel] = useState<string>(''); // 音声モデルの選択状態
+//   const [textModel, setTextModel] = useState<string>(''); // テキストモデルの選択状態
+//   const [audioModels, setAudioModels] = useState<AudioModel[]>([]); // 音声モデルのリスト
+//   const [assistantModels, setAssistantModels] = useState<AssistantModel[]>([]); // テキストモデルのリスト
+//   const [loadingAudio, setLoadingAudio] = useState<boolean>(true); // 音声モデル読み込み状態
+//   const [loadingText, setLoadingText] = useState<boolean>(true); // テキストモデル読み込み状態
+//   const [userMessage, setUserMessage] = useState<string>(''); // ユーザーのメッセージ
+//   const [messages, setMessages] = useState<Message[]>([]); // チャット履歴
+//   const [sending, setSending] = useState<boolean>(false); // メッセージ送信中かどうか
+
+//   // 音声モデルを取得する関数
+//   useEffect(() => {
+//     const fetchAudioModels = async () => {
+//       try {
+//         const response = await fetch('/api/get-audio-models');
+//         const data = await response.json();
+
+//         console.log('Fetched Audio Models:', data);
+
+//         if (data && data.models) {
+//           setAudioModels(data.models);
+//         } else {
+//           console.error('Failed to load audio models: no data.');
+//         }
+//       } catch (error) {
+//         console.error('Failed to load audio models:', error);
+//       } finally {
+//         setLoadingAudio(false);
+//       }
+//     };
+//     fetchAudioModels();
+//   }, []);
+
+//   // テキストモデルを取得する関数
+//   useEffect(() => {
+//     const fetchAssistantModels = async () => {
+//       try {
+//         const response = await fetch('/api/get-assistant-models');
+//         const data = await response.json();
+
+//         console.log('Fetched Assistant Models:', data);
+
+//         if (data && data.models) {
+//           setAssistantModels(data.models);
+//         } else {
+//           console.error('Failed to load assistant models: no data.');
+//         }
+//       } catch (error) {
+//         console.error('Failed to load assistant models:', error);
+//       } finally {
+//         setLoadingText(false);
+//       }
+//     };
+//     fetchAssistantModels();
+//   }, []);
+
+//   // 音声モデルが変更された際に呼ばれるハンドラー
+//   const handleVoiceModelChange = (event: SelectChangeEvent<string>) => {
+//     setVoiceModel(event.target.value);
+//   };
+
+//   // テキストモデルが変更された際に呼ばれるハンドラー
+//   const handleTextModelChange = (event: SelectChangeEvent<string>) => {
+//     setTextModel(event.target.value);
+//   };
+
+//   // メッセージを送信する関数
+//   const handleSendMessage = async () => {
+//     if (!textModel || !userMessage.trim()) {
+//       alert('テキストモデルとメッセージを入力してください。');
+//       return;
+//     }
+
+//     // 選択されたモデルを取得
+//     const selectedModel = assistantModels.find((model) => model.id === textModel);
+//     if (!selectedModel) {
+//       alert('選択されたテキストモデルが見つかりません。');
+//       return;
+//     }
+
+//     const instructions = selectedModel.instructions || 'あなたは有能なアシスタントです。';
+//     const openAiModelName = selectedModel.model || 'gpt-3.5-turbo';
+
+//     // ユーザーのメッセージをチャット履歴に追加
+//     setMessages((prevMessages) => [
+//       ...prevMessages,
+//       { sender: 'user', content: userMessage },
+//     ]);
+
+//     setSending(true);
+
+//     try {
+//       const response = await fetch('/api/send-message', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({
+//           model: openAiModelName, // OpenAIのモデル名を送信
+//           message: userMessage,
+//           previousMessages: messages,
+//           instructions: instructions,
+//         }),
+//       });
+//       const data = await response.json();
+
+//       console.log('Response from text model:', data);
+
+//       if (data && data.response) {
+//         // アシスタントの返信をチャット履歴に追加
+//         setMessages((prevMessages) => [
+//           ...prevMessages,
+//           { sender: 'assistant', content: data.response },
+//         ]);
+//       } else {
+//         console.error('No response from assistant.');
+//       }
+//     } catch (error) {
+//       console.error('Failed to send message:', error);
+//     } finally {
+//       setSending(false);
+//       setUserMessage(''); // メッセージ入力欄をクリア
+//     }
+//   };
+
+//   return (
+//     <Box
+//       sx={{
+//         display: 'flex',
+//         flexDirection: 'column',
+//         height: '82vh',
+//         padding: '2rem',
+//         justifyContent: 'flex-end',
+//         alignItems: 'center',
+//       }}
+//     >
+//       {/* モデル選択エリア */}
+//       <Box
+//         sx={{
+//           maxWidth: '1200px',
+//           width: '100%',
+//           display: 'flex',
+//           gap: '1rem',
+//           marginBottom: '1rem',
+//         }}
+//       >
+//         {/* 音声モデルの選択 */}
+//         <FormControl fullWidth>
+//           <InputLabel id="voice-model-label">音声モデル</InputLabel>
+//           <Select
+//             labelId="voice-model-label"
+//             id="voice-model"
+//             value={voiceModel}
+//             label="音声モデル"
+//             onChange={handleVoiceModelChange}
+//           >
+//             {loadingAudio ? (
+//               <MenuItem value="">読み込み中...</MenuItem>
+//             ) : audioModels.length > 0 ? (
+//               audioModels.map((model) => (
+//                 <MenuItem key={model.id} value={model.id}>
+//                   {model.name}
+//                 </MenuItem>
+//               ))
+//             ) : (
+//               <MenuItem value="">音声モデルが見つかりません</MenuItem>
+//             )}
+//           </Select>
+//         </FormControl>
+
+//         {/* テキストモデルの選択 */}
+//         <FormControl fullWidth>
+//           <InputLabel id="text-model-label">テキストモデル</InputLabel>
+//           <Select
+//             labelId="text-model-label"
+//             id="text-model"
+//             value={textModel}
+//             label="テキストモデル"
+//             onChange={handleTextModelChange}
+//           >
+//             {loadingText ? (
+//               <MenuItem value="">読み込み中...</MenuItem>
+//             ) : assistantModels.length > 0 ? (
+//               assistantModels.map((model) => (
+//                 <MenuItem key={model.id} value={model.id}>
+//                   {model.name}
+//                 </MenuItem>
+//               ))
+//             ) : (
+//               <MenuItem value="">テキストモデルが見つかりません</MenuItem>
+//             )}
+//           </Select>
+//         </FormControl>
+//       </Box>
+
+//       {/* チャット表示エリア */}
+//       <Box
+//         sx={{
+//           maxWidth: '1200px',
+//           width: '100%',
+//           flexGrow: 1,
+//           overflowY: 'auto',
+//           marginBottom: '1rem',
+//           padding: '1rem',
+//           border: '1px solid #ccc',
+//           borderRadius: '4px',
+//         }}
+//       >
+//         {messages.map((msg, index) => (
+//           <Box
+//             key={index}
+//             sx={{
+//               margin: '0.5rem 0',
+//               textAlign: msg.sender === 'user' ? 'right' : 'left',
+//             }}
+//           >
+//             <strong>{msg.sender === 'user' ? 'あなた' : 'アシスタント'}:</strong>{' '}
+//             {msg.content}
+//           </Box>
+//         ))}
+//       </Box>
+
+//       {/* チャット入力エリア */}
+//       <Box
+//         sx={{
+//           display: 'flex',
+//           gap: '1rem',
+//           maxWidth: '1200px',
+//           width: '100%',
+//         }}
+//       >
+//         <TextField
+//           fullWidth
+//           label="メッセージを入力"
+//           multiline
+//           rows={1}
+//           value={userMessage}
+//           onChange={(e) => setUserMessage(e.target.value)}
+//           disabled={sending}
+//         />
+//         <Button
+//           variant="contained"
+//           onClick={handleSendMessage}
+//           disabled={sending}
+//         >
+//           {sending ? '送信中...' : '送信'}
+//         </Button>
+//       </Box>
+//     </Box>
+//   );
+// }
+
+// src/app/(your-folder)/UseAi.tsx
 'use client';
 import React, { useState, useEffect } from 'react';
 import { SelectChangeEvent } from '@mui/material';
@@ -793,15 +754,23 @@ import {
 	Button,
 } from '@mui/material';
 
-// AudioModel and AssistantModel types
+// 型定義
 interface AudioModel {
-	id: string;
+	voice_id: string;
 	name: string;
 }
 
 interface AssistantModel {
 	id: string;
 	name: string;
+	instructions?: string;
+	model: string; // OpenAIのモデル名を含む
+}
+
+interface Message {
+	sender: 'user' | 'assistant';
+	content: string;
+	audioUrl?: string;
 }
 
 export default function UseAi() {
@@ -811,6 +780,9 @@ export default function UseAi() {
 	const [assistantModels, setAssistantModels] = useState<AssistantModel[]>([]); // テキストモデルのリスト
 	const [loadingAudio, setLoadingAudio] = useState<boolean>(true); // 音声モデル読み込み状態
 	const [loadingText, setLoadingText] = useState<boolean>(true); // テキストモデル読み込み状態
+	const [userMessage, setUserMessage] = useState<string>(''); // ユーザーのメッセージ
+	const [messages, setMessages] = useState<Message[]>([]); // チャット履歴
+	const [sending, setSending] = useState<boolean>(false); // メッセージ送信中かどうか
 
 	// 音声モデルを取得する関数
 	useEffect(() => {
@@ -818,6 +790,8 @@ export default function UseAi() {
 			try {
 				const response = await fetch('/api/get-audio-models');
 				const data = await response.json();
+
+				console.log('Fetched Audio Models:', data);
 
 				if (data && data.models) {
 					setAudioModels(data.models);
@@ -840,6 +814,8 @@ export default function UseAi() {
 				const response = await fetch('/api/get-assistant-models');
 				const data = await response.json();
 
+				console.log('Fetched Assistant Models:', data);
+
 				if (data && data.models) {
 					setAssistantModels(data.models);
 				} else {
@@ -856,12 +832,121 @@ export default function UseAi() {
 
 	// 音声モデルが変更された際に呼ばれるハンドラー
 	const handleVoiceModelChange = (event: SelectChangeEvent<string>) => {
-		setVoiceModel(event.target.value); // 単一の文字列として選択された値を保存
+		setVoiceModel(event.target.value);
 	};
 
 	// テキストモデルが変更された際に呼ばれるハンドラー
 	const handleTextModelChange = (event: SelectChangeEvent<string>) => {
-		setTextModel(event.target.value); // 単一の文字列として選択された値を保存
+		setTextModel(event.target.value);
+	};
+
+	// メッセージを送信する関数
+	const handleSendMessage = async () => {
+		if (!textModel || !userMessage.trim()) {
+			alert('テキストモデルとメッセージを入力してください。');
+			return;
+		}
+
+		// 選択されたモデルを取得
+		const selectedModel = assistantModels.find(
+			(model) => model.id === textModel
+		);
+		if (!selectedModel) {
+			alert('選択されたテキストモデルが見つかりません。');
+			return;
+		}
+
+		const instructions =
+			selectedModel.instructions || 'あなたは有能なアシスタントです。';
+		const openAiModelName = selectedModel.model || 'gpt-3.5-turbo';
+
+		// ユーザーのメッセージをチャット履歴に追加
+		const userMsg: Message = {
+			sender: 'user',
+			content: userMessage,
+		};
+		setMessages((prevMessages) => [...prevMessages, userMsg]);
+
+		setSending(true);
+
+		try {
+			const response = await fetch('/api/send-message', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					model: openAiModelName, // OpenAIのモデル名を送信
+					message: userMessage,
+					previousMessages: messages,
+					instructions: instructions,
+				}),
+			});
+			const data = await response.json();
+
+			console.log('Response from text model:', data);
+
+			if (data && data.response) {
+				// アシスタントの返信をチャット履歴に追加
+				const assistantMessage: Message = {
+					sender: 'assistant',
+					content: data.response,
+				};
+
+				setMessages((prevMessages) => [...prevMessages, assistantMessage]);
+
+				// 音声を生成する関数を呼び出す
+				await generateAudio(assistantMessage);
+			} else {
+				console.error('No response from assistant.');
+			}
+		} catch (error) {
+			console.error('Failed to send message:', error);
+		} finally {
+			setSending(false);
+			setUserMessage(''); // メッセージ入力欄をクリア
+		}
+	};
+
+	// 音声を生成する関数
+	const generateAudio = async (message: Message) => {
+		if (!voiceModel) {
+			console.warn('音声モデルが選択されていません。');
+			return;
+		}
+
+		try {
+			const response = await fetch('/api/generate-audio', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					voiceId: voiceModel,
+					text: message.content,
+				}),
+			});
+
+			if (!response.ok) {
+				throw new Error('音声生成に失敗しました。');
+			}
+
+			const blob = await response.blob();
+			const audioUrl = URL.createObjectURL(blob);
+
+			// メッセージに音声のURLを追加
+			setMessages((prevMessages) =>
+				prevMessages.map((msg) =>
+					msg === message ? { ...msg, audioUrl } : msg
+				)
+			);
+
+			// 音声を再生
+			const audio = new Audio(audioUrl);
+			audio.play();
+		} catch (error) {
+			console.error('Failed to generate audio:', error);
+		}
 	};
 
 	return (
@@ -891,15 +976,15 @@ export default function UseAi() {
 					<Select
 						labelId="voice-model-label"
 						id="voice-model"
-						value={voiceModel} // 選択された音声モデル
+						value={voiceModel}
 						label="音声モデル"
-						onChange={handleVoiceModelChange} // 音声モデルの変更を処理
+						onChange={handleVoiceModelChange}
 					>
 						{loadingAudio ? (
 							<MenuItem value="">読み込み中...</MenuItem>
 						) : audioModels.length > 0 ? (
 							audioModels.map((model) => (
-								<MenuItem key={model.id} value={model.name}>
+								<MenuItem key={model.voice_id} value={model.voice_id}>
 									{model.name}
 								</MenuItem>
 							))
@@ -915,15 +1000,15 @@ export default function UseAi() {
 					<Select
 						labelId="text-model-label"
 						id="text-model"
-						value={textModel} // 選択されたテキストモデル
+						value={textModel}
 						label="テキストモデル"
-						onChange={handleTextModelChange} // テキストモデルの変更を処理
+						onChange={handleTextModelChange}
 					>
 						{loadingText ? (
 							<MenuItem value="">読み込み中...</MenuItem>
 						) : assistantModels.length > 0 ? (
 							assistantModels.map((model) => (
-								<MenuItem key={model.id} value={model.name}>
+								<MenuItem key={model.id} value={model.id}>
 									{model.name}
 								</MenuItem>
 							))
@@ -932,6 +1017,49 @@ export default function UseAi() {
 						)}
 					</Select>
 				</FormControl>
+			</Box>
+
+			{/* チャット表示エリア */}
+			<Box
+				sx={{
+					maxWidth: '1200px',
+					width: '100%',
+					flexGrow: 1,
+					overflowY: 'auto',
+					marginBottom: '1rem',
+					padding: '1rem',
+					border: '1px solid #ccc',
+					borderRadius: '4px',
+				}}
+			>
+				{messages.map((msg, index) => (
+					<Box
+						key={index}
+						sx={{
+							margin: '0.5rem 0',
+							textAlign: msg.sender === 'user' ? 'right' : 'left',
+						}}
+					>
+						<strong>
+							{msg.sender === 'user' ? 'あなた' : 'アシスタント'}:
+						</strong>{' '}
+						{msg.content}
+						{/* アシスタントのメッセージに音声再生ボタンを追加 */}
+						{msg.sender === 'assistant' && msg.audioUrl && (
+							<Button
+								variant="outlined"
+								size="small"
+								onClick={() => {
+									const audio = new Audio(msg.audioUrl!);
+									audio.play();
+								}}
+								sx={{ marginLeft: '1rem' }}
+							>
+								再生
+							</Button>
+						)}
+					</Box>
+				))}
 			</Box>
 
 			{/* チャット入力エリア */}
@@ -943,8 +1071,22 @@ export default function UseAi() {
 					width: '100%',
 				}}
 			>
-				<TextField fullWidth label="メッセージを入力" multiline rows={1} />
-				<Button variant="contained">送信</Button>
+				<TextField
+					fullWidth
+					label="メッセージを入力"
+					multiline
+					rows={1}
+					value={userMessage}
+					onChange={(e) => setUserMessage(e.target.value)}
+					disabled={sending}
+				/>
+				<Button
+					variant="contained"
+					onClick={handleSendMessage}
+					disabled={sending}
+				>
+					{sending ? '送信中...' : '送信'}
+				</Button>
 			</Box>
 		</Box>
 	);
