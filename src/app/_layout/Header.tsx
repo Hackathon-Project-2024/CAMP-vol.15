@@ -83,10 +83,10 @@ export default function Header() {
 					}}
 				>
 					<List
-						sx={{ 
-							margin: '70px 0 0 0', 
+						sx={{
+							margin: '70px 0 0 0',
 							width: '400px',
-							backgroundColor: "none",
+							backgroundColor: 'none',
 						}}
 					>
 						<ListItem onClick={toggleDrawer}>
