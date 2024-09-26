@@ -7,7 +7,6 @@ export default function Page() {
 	const descriptionRef = useRef<HTMLDivElement>(null);
 	const overlayRef = useRef<HTMLDivElement>(null);
 	const [titleOpacity, setTitleOpacity] = useState(0);
-	const [haikeiOpacity, setHikeiOpacity] = useState(0);
 
 	useEffect(() => {
 		const handleScroll = () => {
