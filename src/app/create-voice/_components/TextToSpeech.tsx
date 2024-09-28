@@ -1,44 +1,23 @@
 // src/app/_component/TextToSpeech.tsx
 'use client';
 
-import { useState } from 'react';
+import { Box, Typography } from '@mui/material';
 
 interface TextToSpeechProps {
 	voiceId: string;
 }
 
-const TextToSpeech: React.FC<TextToSpeechProps> = ({ voiceId }) => {
-	const [text, setText] = useState('');
-	const [audioUrl, setAudioUrl] = useState('');
-
-	const synthesizeSpeech = async () => {
-		const response = await fetch('/api/synthesize-speech', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({ text, voiceId }),
-		});
-
-		if (response.ok) {
-			const blob = await response.blob();
-			const url = URL.createObjectURL(blob);
-			setAudioUrl(url);
-		} else {
-			console.error('音声合成に失敗しました');
-		}
-	};
-
+const TextToSpeech: React.FC<TextToSpeechProps> = () => {
 	return (
-		<div>
-			<textarea
-				value={text}
-				onChange={(e) => setText(e.target.value)}
-				placeholder="テキストを入力してください"
-			/>
-			<button onClick={synthesizeSpeech}>音声合成</button>
-			{audioUrl && <audio src={audioUrl} controls />}
-		</div>
+		<Box
+			display="flex"
+			justifyContent="center"
+			alignItems="center"
+			width="100%"
+			padding={10}
+		>
+			<Typography variant="h6">音声モデルの生成が完了しました</Typography>
+		</Box>
 	);
 };
 

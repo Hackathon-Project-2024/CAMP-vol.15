@@ -48,8 +48,9 @@ export const runtime = 'nodejs';
 export async function POST(req: NextRequest) {
 	const formData = await req.formData();
 	const files = formData.getAll('files') as Blob[];
+	const modelName = formData.get('modelName');
 
-	if (files.length === 0) {
+	if (files.length === 0 || !modelName) {
 		return NextResponse.json(
 			{ message: 'ファイルが見つかりません' },
 			{ status: 400 }
@@ -75,7 +76,7 @@ export async function POST(req: NextRequest) {
 	});
 
 	// 必須フィールドが足りない場合に備えて、`name`や`description`も送信する
-	apiFormData.append('name', 'UserVoice');
+	apiFormData.append('name', modelName);
 	apiFormData.append('description', 'User voice clone');
 
 	const response = await fetch('https://api.elevenlabs.io/v1/voices/add', {
