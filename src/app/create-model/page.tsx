@@ -141,7 +141,7 @@ export default function CreateModel() {
 				sx={{ marginBottom: '1rem' }}
 			>
 				<MenuItem value="gpt-4o">GPT-4o</MenuItem>
-				<MenuItem value="gpt-4mini">GPT-4mini</MenuItem>
+				<MenuItem value="gpt-4o-mini">GPT-4o-mini</MenuItem>
 			</TextField>
 			<TextField
 				fullWidth
