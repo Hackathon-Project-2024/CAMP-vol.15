@@ -44,7 +44,7 @@ export default function Page() {
 	}, []);
 
 	return (
-		<main style={{ backgroundColor: 'black' }}>
+		<main style={{ backgroundColor: 'black', fontFamily: 'none' }}>
 			<Box
 				sx={{
 				backgroundImage: "url('/haikei2.png')",
@@ -187,7 +187,7 @@ export default function Page() {
 							>
 								音声モデル生成ページで音声モデルをアップロードできます。<br />
 								<br />
-								話してみたいキャラクター音声を追加してみてください！
+								話してみたいキャラクター音声を追加してみてください！<br />
 							</p>
 						</div>
 						<div

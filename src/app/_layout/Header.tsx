@@ -8,14 +8,64 @@ import {
 	Drawer,
 	List,
 	ListItem,
-	ListItemText,
 	IconButton,
+	Typography,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu'; // メニューアイコン
 import CloseIcon from '@mui/icons-material/Close'; // 閉じるアイコン
 import Link from 'next/link';
 import Image from 'next/image';
 import AudioModelList from './VoiceModelList';
+import { styled } from '@mui/material/styles';
+
+const CustomDrawer = styled(Drawer)({
+	'& .MuiPaper-root': {
+		boxShadow: 'none',
+		backgroundColor: '#1a1a1a',
+	},
+	'& .MuiList-root': {
+		padding: '20px',
+	},
+	'& .MuiListItem-root': {
+		padding: '10px 20px',
+		'&:hover': {
+			backgroundColor: 'rgba(0, 0, 0, 0.1)',
+		},
+	},
+	'& .MuiTypography-root': {
+		fontSize: '1.2rem',
+	},
+});
+
+const CustomTypography = styled(Typography)({
+	fontFamily: '',
+	color: '#fff', 
+	position: 'relative',
+	overflow: 'hidden',
+	backgroundColor: '#1a1a1a',
+	zIndex: 11,
+	'&::before': {
+		content: '""',
+		position: 'absolute',
+		width: '101%',
+		height: '90%',
+		backgroundColor: '#fff',
+		zIndex: -1,
+		transform: 'translateX(-100%)', // 初期位置を左端に設定
+		transition: 'transform 0.3s ease', // スムーズなトランジションを追加
+	},
+	'&:hover': {
+		color: '#1a1a1a', // ホバー時のテキスト色
+		'&::before': {
+		  transform: 'translateX(0)', // ホバー時に背景を左からスライドさせる
+		},
+	},
+});
+
+const CustomLink = styled(Link)({
+	textDecoration: 'none'
+})
+
 
 export default function Header() {
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -36,7 +86,6 @@ export default function Header() {
 				position="fixed"
 				sx={{
 					bgcolor: 'black',
-					// opacity: 0.8,
 					zIndex: (theme) => theme.zIndex.drawer + 1,
 				}}
 			>
@@ -74,7 +123,7 @@ export default function Header() {
 
 			{/* Drawer */}
 			<Box sx={{ margin: '64px 0 0 0' }}>
-				<Drawer
+				<CustomDrawer 
 					anchor="left"
 					open={isDrawerOpen}
 					onClose={toggleDrawer}
@@ -85,32 +134,27 @@ export default function Header() {
 					<List
 						sx={{
 							margin: '70px 0 0 0',
-							width: '400px',
+							width: '280px',
 							backgroundColor: 'none',
 						}}
 					>
 						<ListItem onClick={toggleDrawer}>
-							<Link href="/create-voice">
-								<ListItemText primary="音声モデル生成" />
-							</Link>
-						</ListItem>
-						{/* 音声モデル一覧を開閉 */}
-						<ListItem onClick={toggleModelList}>
-							<ListItemText primary="音声モデル一覧" />
-						</ListItem>
-						{isModelListOpen && <AudioModelList />} {/* 一覧の表示 */}
-						<ListItem onClick={toggleDrawer}>
-							<Link href="/create-model">
-								<ListItemText primary="性格モデル使用" />
-							</Link>
+							<CustomLink href="/create-voice">
+								<CustomTypography>音声モデル生成</CustomTypography>
+							</CustomLink>
 						</ListItem>
 						<ListItem onClick={toggleDrawer}>
-							<Link href="/use-ai">
-								<ListItemText primary="AI使用" />
-							</Link>
+							<CustomLink href="/create-model">
+								<CustomTypography>性格モデル使用</CustomTypography>
+							</CustomLink>
+						</ListItem>
+						<ListItem onClick={toggleDrawer}>
+							<CustomLink href="/use-ai">
+								<CustomTypography>AI使用</CustomTypography>
+							</CustomLink>
 						</ListItem>
 					</List>
-				</Drawer>
+				</CustomDrawer>
 			</Box>
 		</Box>
 	);
