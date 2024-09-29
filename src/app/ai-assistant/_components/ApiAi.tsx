@@ -13,6 +13,7 @@ import {
 	Modal,
 	Typography,
 } from '@mui/material';
+import { useBreakPoint } from '@/hooks';
 
 // 型定義
 interface AudioModel {
@@ -46,6 +47,8 @@ const ApiAi: React.FC = () => {
 
 	// モーダルの開閉状態を管理するステート
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+	const breakpoint = useBreakPoint();
 
 	// 音声モデルを取得する関数
 	useEffect(() => {
@@ -245,14 +248,17 @@ const ApiAi: React.FC = () => {
 
 	return (
 		<Box
-			sx={{
-				display: 'flex',
-				flexDirection: 'column',
-				height: '82vh',
-				padding: '2rem',
-				justifyContent: 'flex-end',
-				alignItems: 'center',
-			}}
+			display="flex"
+			justifyContent="center"
+			alignItems="center"
+			flexDirection="column"
+			gap="20px"
+			width={['xs'].includes(breakpoint) ? '90%' : '80%'}
+			height="80vh"
+			bgcolor={'#202849'}
+			padding="20px 10px"
+			margin="0 auto"
+			borderRadius="10px"
 		>
 			{/* モデル選択エリア */}
 			<Box
