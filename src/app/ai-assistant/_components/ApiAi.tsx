@@ -1,3 +1,4 @@
+// src/components/ApiAi.tsx
 'use client';
 import React, { useState, useEffect } from 'react';
 import { SelectChangeEvent } from '@mui/material';
@@ -32,7 +33,7 @@ interface Message {
 	audioUrl?: string;
 }
 
-export default function ApiAi() {
+const ApiAi: React.FC = () => {
 	const [voiceModel, setVoiceModel] = useState<string>(''); // 音声モデルの選択状態
 	const [textModel, setTextModel] = useState<string>(''); // テキストモデルの選択状態
 	const [audioModels, setAudioModels] = useState<AudioModel[]>([]); // 音声モデルのリスト
@@ -118,17 +119,17 @@ export default function ApiAi() {
 
 	const generateEmbedCode = () => {
 		const embedCode = `
-			<script src="http://localhost:3000/chatbot.bundle.js"></script>
-			<script>
-				document.addEventListener('DOMContentLoaded', function() {
-					initializeChatbot({
-						textModelId: '${textModel}',
-						voiceModelId: '${voiceModel}',
-						apiUrl: 'http://localhost:3000/api/chatbot'
-					});
-				});
-			</script>
-		`;
+            <script src="http://localhost:3000/chatbot.bundle.js"></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    initializeChatbot({
+                        textModelId: '${textModel}',
+                        voiceModelId: '${voiceModel}',
+                        apiUrl: 'http://localhost:3000/api/chatbot'
+                    });
+                });
+            </script>
+        `;
 		return embedCode.trim();
 	};
 
@@ -432,4 +433,6 @@ export default function ApiAi() {
 			</Modal>
 		</Box>
 	);
-}
+};
+
+export default ApiAi;
