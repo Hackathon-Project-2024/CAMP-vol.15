@@ -1,5 +1,4 @@
 'use client';
-
 import React, { useState } from 'react';
 import {
 	AppBar,
@@ -62,8 +61,9 @@ const CustomTypography = styled(Typography)({
 });
 
 const CustomLink = styled(Link)({
-	textDecoration: 'none',
+	textDecoration: 'none'
 });
+
 
 export default function Header() {
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -144,6 +144,11 @@ export default function Header() {
 						<ListItem onClick={toggleDrawer}>
 							<CustomLink href="/use-ai">
 								<CustomTypography>AI使用</CustomTypography>
+							</CustomLink>
+						</ListItem>
+						<ListItem onClick={toggleDrawer}>
+							<CustomLink href="/ai-assistant">
+								<CustomTypography>AIアシスタント</CustomTypography>
 							</CustomLink>
 						</ListItem>
 					</List>

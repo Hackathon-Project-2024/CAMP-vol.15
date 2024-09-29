@@ -3,6 +3,30 @@ import { Box } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useFadeInOnScroll } from './hooks/useFadeInOnScroll';
+import {ListItem, Typography} from '@mui/material';
+import Link from 'next/link';
+import { styled } from '@mui/material/styles';
+
+const CustomLink = styled(Link)({
+	textDecoration: 'none'
+});
+
+const CustomTypography = styled(Typography)({
+	padding: '0 20px',
+	fontFamily: 'none',
+	color: '#fff', 
+	fontSize: '3rem',
+	fontWeight: '300',
+	transition: 'color 0.3s ease',
+	justifyContent: 'center',
+	border: 'solid 1px',
+	borderRadius: '5px',
+	'&:hover': {
+        color: 'transparent', // 文字の中身を透明に
+        WebkitTextStroke: '0.5px #fff', // 文字の縁に色をつける
+        textStroke: '1px #fff', // フォールバック
+    },
+});
 
 export default function Page() {
 	const descriptionRef = useFadeInOnScroll<HTMLDivElement>();
@@ -15,11 +39,13 @@ export default function Page() {
 	const h2Ref4 = useFadeInOnScroll<HTMLHeadingElement>();
 	const pRef4 = useFadeInOnScroll<HTMLParagraphElement>();
 	const [titleOpacity, setTitleOpacity] = useState(0);
+	const [linkOpacity, setLinkOpacity] = useState(0);
 
 	// タイトルのフェードイン
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			setTitleOpacity(1);
+			setLinkOpacity(1);
 		}, 400);
 
 		return () => clearTimeout(timer);
@@ -88,7 +114,8 @@ export default function Page() {
 							display: 'flex',
 							justifyContent: 'center',
 							alignItems: 'center',
-							minHeight: '82vh',
+							minHeight: '45vh',
+							margin: '80px auto 0 auto',
 						}}
 					>
 						<div
@@ -106,8 +133,15 @@ export default function Page() {
 								fill
 								sizes="(max-width: 600px)"
 							/>
-						</div>
+						</div>				
 					</div>
+					<div style={{margin: '0 auto', justifyContent: 'center', opacity: linkOpacity, transition: 'opacity 1s ease',}}>
+						<ListItem>
+							<CustomLink href="/ai-assistant">
+								<CustomTypography>≫ Let's Start</CustomTypography>
+							</CustomLink>
+						</ListItem>
+					</div>		
 
 					{/* サイトの説明 */}
 					<div
