@@ -50,8 +50,7 @@ const CreateModel: React.FC = () => {
 			flexDirection="column"
 			gap="20px"
 			width={['xs'].includes(breakpoint) ? '90%' : '80%'}
-			bgcolor={'#202849'}
-			padding="20px 10px"
+			padding="20px 0px"
 			margin="0 auto"
 			borderRadius="10px"
 		>

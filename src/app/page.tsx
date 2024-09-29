@@ -23,7 +23,7 @@ export default function Page() {
 		}, 400);
 
 		return () => clearTimeout(timer);
-	}, []);
+	}, []); // eslint-disable-line
 
 	// スクロールに応じた背景の暗さを調整
 	const overlayRef = useRef<HTMLDivElement>(null);
@@ -43,7 +43,7 @@ export default function Page() {
 
 		window.addEventListener('scroll', handleScroll);
 		return () => window.removeEventListener('scroll', handleScroll);
-	}, []);
+	}, []); // eslint-disable-line
 
 	return (
 		<main style={{ backgroundColor: 'black', fontFamily: 'none' }}>
@@ -201,7 +201,8 @@ export default function Page() {
 								音声モデル生成ページで音声モデルをアップロードできます。
 								<br />
 								<br />
-								話してみたいキャラクター音声を追加してみてください！<br />
+								話してみたいキャラクター音声を追加してみてください！
+								<br />
 							</p>
 						</div>
 						<div

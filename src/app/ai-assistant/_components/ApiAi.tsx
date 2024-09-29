@@ -255,8 +255,6 @@ const ApiAi: React.FC = () => {
 			gap="20px"
 			width={['xs'].includes(breakpoint) ? '90%' : '80%'}
 			height="80vh"
-			bgcolor={'#202849'}
-			padding="20px 10px"
 			margin="0 auto"
 			borderRadius="10px"
 		>
@@ -325,7 +323,7 @@ const ApiAi: React.FC = () => {
 					onClick={handleOpenModal}
 					sx={{ height: '56px' }} // ボタンの高さを他の入力欄と揃える
 				>
-					チャットボット作成
+					作成
 				</Button>
 			</Box>
 

@@ -15,7 +15,6 @@ import MenuIcon from '@mui/icons-material/Menu'; // メニューアイコン
 import CloseIcon from '@mui/icons-material/Close'; // 閉じるアイコン
 import Link from 'next/link';
 import Image from 'next/image';
-import AudioModelList from './VoiceModelList';
 import { styled } from '@mui/material/styles';
 
 const CustomDrawer = styled(Drawer)({
@@ -39,7 +38,7 @@ const CustomDrawer = styled(Drawer)({
 
 const CustomTypography = styled(Typography)({
 	fontFamily: '',
-	color: '#fff', 
+	color: '#fff',
 	position: 'relative',
 	overflow: 'hidden',
 	backgroundColor: '#1a1a1a',
@@ -57,26 +56,20 @@ const CustomTypography = styled(Typography)({
 	'&:hover': {
 		color: '#1a1a1a', // ホバー時のテキスト色
 		'&::before': {
-		  transform: 'translateX(0)', // ホバー時に背景を左からスライドさせる
+			transform: 'translateX(0)', // ホバー時に背景を左からスライドさせる
 		},
 	},
 });
 
 const CustomLink = styled(Link)({
-	textDecoration: 'none'
-})
-
+	textDecoration: 'none',
+});
 
 export default function Header() {
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-	const [isModelListOpen, setIsModelListOpen] = useState(false); // モデル一覧の開閉管理
 
 	const toggleDrawer = () => {
 		setIsDrawerOpen(!isDrawerOpen);
-	};
-
-	const toggleModelList = () => {
-		setIsModelListOpen(!isModelListOpen);
 	};
 
 	return (
@@ -123,7 +116,7 @@ export default function Header() {
 
 			{/* Drawer */}
 			<Box sx={{ margin: '64px 0 0 0' }}>
-				<CustomDrawer 
+				<CustomDrawer
 					anchor="left"
 					open={isDrawerOpen}
 					onClose={toggleDrawer}
