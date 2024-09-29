@@ -1,7 +1,7 @@
 // src/components/TextToSpeech.tsx
 'use client';
 
-import { Box, Typography } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 
 interface TextToSpeechProps {
 	voiceId: string;
@@ -15,12 +15,21 @@ const TextToSpeech: React.FC<TextToSpeechProps> = ({ voiceId }) => {
 			alignItems="center"
 			width="100%"
 			padding={2}
-			bgcolor="#f5f5f5"
+			bgcolor="#111"
 			borderRadius="8px"
 		>
-			<Typography variant="h6">
+			<Paper
+				elevation={2}
+				sx={{
+					width: '100%',
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+					padding: '30px 0',
+				}}
+			>
 				音声モデルの生成が完了しました: {voiceId}
-			</Typography>
+			</Paper>
 		</Box>
 	);
 };

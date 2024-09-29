@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Michroma } from 'next/font/google';
 import Header from './_layout/Header';
 import './globals.css';
+import { darkTheme } from '@/theme';
+import { ThemeProvider } from '@mui/material';
 
 const font = Michroma({ weight: '400', subsets: ['latin'] });
 
@@ -17,10 +19,12 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="ja">
-			<body className={font.className}>
-				<Header />
-				{children}
-			</body>
+			<ThemeProvider theme={darkTheme}>
+				<body className={font.className}>
+					<Header />
+					{children}
+				</body>
+			</ThemeProvider>
 		</html>
 	);
 }

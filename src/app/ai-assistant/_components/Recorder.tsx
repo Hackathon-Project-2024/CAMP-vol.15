@@ -93,16 +93,25 @@ const Recorder: React.FC<RecorderProps> = ({ onVoiceIdReceived }) => {
 			flexDirection="column"
 			gap="30px"
 			width={['xs'].includes(breakpoint) ? '90%' : '80%'}
+			bgcolor={'#202849'}
+			padding="20px 10px"
+			margin="0 auto"
+			borderRadius="10px"
 		>
 			<Box
 				display="flex"
 				justifyContent="center"
 				alignItems="center"
-				flexDirection={['xs'].includes(breakpoint) ? 'column' : 'row'}
+				flexDirection={['xs'].includes(breakpoint) ? 'column' : 'column'}
 				gap="20px"
 				width="100%"
 			>
-				<Button variant="contained" component="label" endIcon={<CloudUpload />}>
+				<Button
+					fullWidth
+					variant="contained"
+					component="label"
+					endIcon={<CloudUpload />}
+				>
 					ファイルを選択
 					<input
 						type="file"
@@ -113,6 +122,7 @@ const Recorder: React.FC<RecorderProps> = ({ onVoiceIdReceived }) => {
 					/>
 				</Button>
 				<TextField
+					fullWidth
 					variant="outlined"
 					size="small"
 					label="音声モデル名を入力"
