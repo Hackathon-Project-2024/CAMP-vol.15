@@ -1,3 +1,4 @@
+// src/components/CreateModel.tsx
 'use client';
 import React, { useState } from 'react';
 import { TextField, Button, MenuItem, Typography } from '@mui/material';
@@ -8,9 +9,8 @@ const Container = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	height: 82vh;
-	padding: 2rem;
-	margin: 20px 0 0 0;
+	padding: 1rem;
+	margin: 0;
 `;
 
 const Title = styled(Typography)`
@@ -20,16 +20,22 @@ const Title = styled(Typography)`
 		background-color: #eeeeee;
 		padding: 1rem 2rem;
 		border-radius: 8px;
-		width: 65%;
+		width: 100%;
+		margin-bottom: 1rem;
 	}
 `;
 
-export default function CreateModel() {
+const CreateModel: React.FC = () => {
 	const [inputText, setInputText] = useState('');
 	const [name, setName] = useState('');
 	const [model, setModel] = useState('gpt-3.5');
 
 	const handleSubmit = async () => {
+		if (!name.trim() || !inputText.trim()) {
+			alert('Assistant Name と System Instructions を入力してください。');
+			return;
+		}
+
 		try {
 			const response = await fetch('/api/create-assistant', {
 				method: 'POST',
@@ -41,11 +47,18 @@ export default function CreateModel() {
 			const data = await response.json();
 			if (response.ok) {
 				console.log(`Assistant Created: ${data.assistantId}`);
+				alert(`Assistant Created: ${data.assistantId}`);
+				// 必要に応じてフォームをリセット
+				setName('');
+				setInputText('');
+				setModel('gpt-3.5');
 			} else {
 				console.error(`Error: ${data.message}`);
+				alert(`Error: ${data.message}`);
 			}
 		} catch (error) {
 			console.error('Network or server error:', error);
+			alert('ネットワークまたはサーバーエラーが発生しました。');
 		}
 	};
 
@@ -75,7 +88,7 @@ export default function CreateModel() {
 			<TextField
 				fullWidth
 				multiline
-				rows={10}
+				rows={4}
 				label="System Instructions"
 				value={inputText}
 				onChange={(e) => setInputText(e.target.value)}
@@ -87,4 +100,6 @@ export default function CreateModel() {
 			</Button>
 		</Container>
 	);
-}
+};
+
+export default CreateModel;

@@ -1,5 +1,6 @@
+// src/components/Recorder.tsx
 'use client';
-import { useBreakPoint } from '@/hooks';
+import { useBreakPoint } from '@/hooks/common/useBreakpoint';
 import { Audiotrack, CloudUpload } from '@mui/icons-material';
 import {
 	Box,
@@ -80,6 +81,7 @@ const Recorder: React.FC<RecorderProps> = ({ onVoiceIdReceived }) => {
 		} catch (err) {
 			console.error(err);
 			setIsSending(false);
+			setError('ファイルのアップロードに失敗しました。');
 		}
 	};
 
@@ -148,6 +150,7 @@ const Recorder: React.FC<RecorderProps> = ({ onVoiceIdReceived }) => {
 									sx={{
 										backgroundColor: '#000',
 										borderRadius: '35px',
+										width: '100%',
 									}}
 								>
 									<ListItemText
@@ -176,9 +179,9 @@ const Recorder: React.FC<RecorderProps> = ({ onVoiceIdReceived }) => {
 
 			{error && <p style={{ color: 'red' }}>{error}</p>}
 			{!isSending ? (
-				<button onClick={uploadFiles} disabled={!files}>
+				<Button variant="contained" onClick={uploadFiles} disabled={!files}>
 					ファイルをアップロード
-				</button>
+				</Button>
 			) : (
 				<CircularProgress />
 			)}
