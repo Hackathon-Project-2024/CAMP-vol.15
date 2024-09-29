@@ -1,34 +1,14 @@
 // src/components/CreateModel.tsx
 'use client';
 import React, { useState } from 'react';
-import { TextField, Button, MenuItem, Typography } from '@mui/material';
-import styled from 'styled-components';
-
-const Container = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	padding: 1rem;
-	margin: 0;
-`;
-
-const Title = styled(Typography)`
-	&& {
-		font-weight: bold;
-		text-align: center;
-		background-color: #eeeeee;
-		padding: 1rem 2rem;
-		border-radius: 8px;
-		width: 100%;
-		margin-bottom: 1rem;
-	}
-`;
+import { TextField, Button, MenuItem, Box, Paper } from '@mui/material';
+import { useBreakPoint } from '@/hooks';
 
 const CreateModel: React.FC = () => {
 	const [inputText, setInputText] = useState('');
 	const [name, setName] = useState('');
 	const [model, setModel] = useState('gpt-3.5');
+	const breakpoint = useBreakPoint();
 
 	const handleSubmit = async () => {
 		if (!name.trim() || !inputText.trim()) {
@@ -63,10 +43,29 @@ const CreateModel: React.FC = () => {
 	};
 
 	return (
-		<Container>
-			<Title variant="h4" gutterBottom>
+		<Box
+			display="flex"
+			justifyContent="center"
+			alignItems="center"
+			flexDirection="column"
+			gap="20px"
+			width={['xs'].includes(breakpoint) ? '90%' : '80%'}
+			padding="20px 0px"
+			margin="0 auto"
+			borderRadius="10px"
+		>
+			<Paper
+				elevation={2}
+				sx={{
+					width: '100%',
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+					padding: '30px 0',
+				}}
+			>
 				Create AI Assistant
-			</Title>
+			</Paper>
 			<TextField
 				fullWidth
 				label="Assistant Name"
@@ -98,7 +97,7 @@ const CreateModel: React.FC = () => {
 			<Button variant="contained" onClick={handleSubmit}>
 				Create Assistant
 			</Button>
-		</Container>
+		</Box>
 	);
 };
 

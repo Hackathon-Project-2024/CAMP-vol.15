@@ -318,7 +318,7 @@ export default function ApiAi() {
 					onClick={handleOpenModal}
 					sx={{ height: '56px' }} // ボタンの高さを他の入力欄と揃える
 				>
-					チャットボット作成
+					作成
 				</Button>
 			</Box>
 
