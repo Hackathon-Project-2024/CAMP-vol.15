@@ -7,9 +7,11 @@ import Recorder from './_components/Recorder';
 import TextToSpeech from './_components/TextToSpeech';
 import CreateModel from './_components/CreateModel';
 import ApiAi from './_components/ApiAi'; // 新規作成した ApiAi コンポーネントをインポート
+import { useBreakPoint } from '@/hooks';
 
 const AiAssistantPage = () => {
 	const [voiceId, setVoiceId] = useState<string>('');
+	const breakpoint = useBreakPoint();
 
 	const handleVoiceIdReceived = (id: string) => {
 		setVoiceId(id);
@@ -22,8 +24,6 @@ const AiAssistantPage = () => {
 				padding: '2rem',
 				boxSizing: 'border-box',
 			}}
-			bgcolor="#111"
-			color="#fff"
 		>
 			<Grid container spacing={2} sx={{ height: '100%', margin: '0 auto' }}>
 				{/* 左側: 30% */}
@@ -39,8 +39,14 @@ const AiAssistantPage = () => {
 					}}
 				>
 					{/* 上部: Recorder */}
-					<Box sx={{ flex: '1 1 auto' }}>
-						<Typography variant="h6" gutterBottom>
+					<Box>
+						<Typography
+							variant="h6"
+							width={['xs'].includes(breakpoint) ? '90%' : '80%'}
+							sx={{
+								margin: '0 auto',
+							}}
+						>
 							音声録音
 						</Typography>
 						{!voiceId ? (
@@ -72,7 +78,13 @@ const AiAssistantPage = () => {
 
 					{/* 下部: CreateModel */}
 					<Box sx={{ flex: '1 1 auto' }}>
-						<Typography variant="h6" gutterBottom>
+						<Typography
+							variant="h6"
+							width={['xs'].includes(breakpoint) ? '90%' : '80%'}
+							sx={{
+								margin: '0 auto',
+							}}
+						>
 							モデル作成
 						</Typography>
 						<CreateModel />
@@ -86,7 +98,13 @@ const AiAssistantPage = () => {
 					md={8}
 					sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
 				>
-					<Typography variant="h6" gutterBottom>
+					<Typography
+						variant="h6"
+						width={['xs'].includes(breakpoint) ? '90%' : '80%'}
+						sx={{
+							margin: '0 auto',
+						}}
+					>
 						AI インターフェース
 					</Typography>
 					<ApiAi />
