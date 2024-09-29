@@ -114,8 +114,8 @@ export default function Page() {
 							display: 'flex',
 							justifyContent: 'center',
 							alignItems: 'center',
-							minHeight: '45vh',
-							margin: '80px auto 0 auto',
+							minHeight: '30vh',
+							margin: '220px auto 0 auto',
 						}}
 					>
 						<div
