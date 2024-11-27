@@ -6,10 +6,9 @@
 
 出展: 技育CAMPハッカソン2024 vol.15
 
-開発チーム: 未設定
+開発チーム: NightTeaParty
 
 開発メンバー: 
-
 xBlackTea(https://github.com/xBlackTea)
 Hinata0607(https://github.com/Hinata0607)
 jdmaoe(https://github.com/jdmaoe)
