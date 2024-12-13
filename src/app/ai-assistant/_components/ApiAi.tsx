@@ -122,13 +122,13 @@ const ApiAi: React.FC = () => {
 
 	const generateEmbedCode = () => {
 		const embedCode = `
-            <script src="http://localhost:3000/chatbot.bundle.js"></script>
+            <script src="https://camp-vol-15-stellar.vercel.app/chatbot.bundle.js"></script>
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
                     initializeChatbot({
                         textModelId: '${textModel}',
                         voiceModelId: '${voiceModel}',
-                        apiUrl: 'http://localhost:3000/api/chatbot'
+                        apiUrl: 'https://camp-vol-15-stellar.vercel.app/api/chatbot'
                     });
                 });
             </script>
