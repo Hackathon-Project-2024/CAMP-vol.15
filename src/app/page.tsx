@@ -3,18 +3,18 @@ import { Box } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useFadeInOnScroll } from './hooks/useFadeInOnScroll';
-import {ListItem, Typography} from '@mui/material';
+import { ListItem, Typography } from '@mui/material';
 import Link from 'next/link';
 import { styled } from '@mui/material/styles';
 
 const CustomLink = styled(Link)({
-	textDecoration: 'none'
+	textDecoration: 'none',
 });
 
 const CustomTypography = styled(Typography)({
 	padding: '0 20px',
 	fontFamily: 'none',
-	color: '#fff', 
+	color: '#fff',
 	fontSize: '3rem',
 	fontWeight: '300',
 	transition: 'color 0.3s ease',
@@ -22,10 +22,10 @@ const CustomTypography = styled(Typography)({
 	border: 'solid 1px',
 	borderRadius: '5px',
 	'&:hover': {
-        color: 'transparent', // 文字の中身を透明に
-        WebkitTextStroke: '0.5px #fff', // 文字の縁に色をつける
-        textStroke: '1px #fff', // フォールバック
-    },
+		color: 'transparent', // 文字の中身を透明に
+		WebkitTextStroke: '0.5px #fff', // 文字の縁に色をつける
+		textStroke: '1px #fff', // フォールバック
+	},
 });
 
 export default function Page() {
@@ -133,15 +133,22 @@ export default function Page() {
 								fill
 								sizes="(max-width: 600px)"
 							/>
-						</div>				
+						</div>
 					</div>
-					<div style={{margin: '0 auto', justifyContent: 'center', opacity: linkOpacity, transition: 'opacity 1s ease',}}>
+					<div
+						style={{
+							margin: '0 auto',
+							justifyContent: 'center',
+							opacity: linkOpacity,
+							transition: 'opacity 1s ease',
+						}}
+					>
 						<ListItem>
 							<CustomLink href="/ai-assistant">
-								<CustomTypography>≫ Let's Start</CustomTypography>
+								<CustomTypography>≫ Let&apos;s Start</CustomTypography>
 							</CustomLink>
 						</ListItem>
-					</div>		
+					</div>
 
 					{/* サイトの説明 */}
 					<div
