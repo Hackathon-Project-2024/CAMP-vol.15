@@ -61,9 +61,8 @@ const CustomTypography = styled(Typography)({
 });
 
 const CustomLink = styled(Link)({
-	textDecoration: 'none'
+	textDecoration: 'none',
 });
-
 
 export default function Header() {
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
