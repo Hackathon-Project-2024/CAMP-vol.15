@@ -206,6 +206,7 @@
 					// APIリクエストを送信
 					const response = await fetch(apiUrl, {
 						method: 'POST',
+						mode: 'cors',
 						headers: { 'Content-Type': 'application/json' },
 						body: JSON.stringify({
 							message: userMessage,
